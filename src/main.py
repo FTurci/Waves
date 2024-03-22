@@ -89,8 +89,8 @@ reset_button.on_click(reset)
 slider_alpha = Slider(start=0.01, end=2.0, value=0.1, step=0.01, title="Courant number",width=100)
 slider_alpha.on_change('value', update_alpha)
 
-
-buttons = column(start_button, stop_button, reset_button,slider_alpha)
-layout = column(Div(text="<h2>  One-dimensional Wave Evolution</h2>"),row(fig, buttons,width=600))
+qr = Div(text='<img src="src/static/qr.png" alt="qr-code" style="width: 300px; height: 300px;">')
+buttons = column(start_button, stop_button, reset_button,slider_alpha,qr)
+layout = column(Div(text="<h2>  One-dimensional Wave Evolution</h2>"),row(fig, buttons,width=1000))
 
 curdoc().add_root(layout)
