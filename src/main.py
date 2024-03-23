@@ -15,8 +15,9 @@ def initialise(N=1000, L=128.0, alpha=0.1, peak=1, c=1):
     return p, alpha, dx, dt
 
 def evolve(p, alpha, n=1):
-    for i in range(1, p.shape[0] - 1):
-        p[i, n + 1] = alpha ** 2 * (p[i + 1, n] - 2 * p[i, n] + p[i - 1, n]) + 2 * p[i, n] - p[i, n - 1]
+    # for i in range(1, p.shape[0] - 1):
+        # p[i, n + 1] = alpha ** 2 * (p[i + 1, n] - 2 * p[i, n] + p[i - 1, n]) + 2 * p[i, n] - p[i, n - 1]
+    p[1:-1,n+1] = alpha**2 * (p[2:, n] - 2 * p[1:-1, n] + p[:-2, n]) + 2 * p[1:-1, n] - p[1:-1, n - 1]
 
     # forget the past
     p[:, n - 1] = p[:, n]
@@ -77,20 +78,31 @@ def reset():
     source.data = dict(x=x, y=p[:, 1])
 
 
-start_button = Button(label="Start", button_type="success")
+width = 300
+start_button = Button(label="Start", button_type="success",width=width)
 start_button.on_click(start)
 
-stop_button = Button(label="Stop", button_type="danger")
+stop_button = Button(label="Stop", button_type="danger",width=width)
 stop_button.on_click(stop)
 
-reset_button = Button(label="Reset", button_type="warning")
+reset_button = Button(label="Reset", button_type="warning",width=width)
 reset_button.on_click(reset)
 
-slider_alpha = Slider(start=0.01, end=2.0, value=0.1, step=0.01, title="Courant number",width=100)
+slider_alpha = Slider(start=0.01, end=2.0, value=0.1, step=0.01, title="Courant number",width=width)
 slider_alpha.on_change('value', update_alpha)
 
-qr = Div(text='<img src="src/static/qr.png" alt="qr-code" style="width: 300px; height: 300px;">')
+latex_content = r"""
+<p>The <b>Courant number</b> \(\alpha = c\Delta t/ \Delta x \) determines the stability of the simulation. </p> <br>
+
+<p> Take \(\alpha <1 \)  for a stable simulation.</p><br>
+
+<p> The simulation is <b>interactive</b>: click on the graph to perturb the pressure profile.</p>
+<img src="src/static/qr.png" alt="qr-code" style="width: 300px; height: 300px;">
+"""
+
+# qr = Div(text='<p> The courant number is $$\alpha = c\Delta t/\Delta x$$</p>',disable_math=False)
+qr = Div(text=latex_content, width=width, height=100)
 buttons = column(start_button, stop_button, reset_button,slider_alpha,qr)
-layout = column(Div(text="<h2>  One-dimensional Wave Evolution</h2>"),row(fig, buttons,width=1000))
+layout = column(Div(text="<h2>  One-dimensional Wave Evolution </h2> "),row(fig, buttons,width=1000))
 
 curdoc().add_root(layout)
