@@ -79,7 +79,7 @@ def reset():
 
 
 width = 300
-start_button = Button(label="Start", button_type="success",width=width)
+start_button = Button(label="Run", button_type="success",width=width)
 start_button.on_click(start)
 
 stop_button = Button(label="Stop", button_type="danger",width=width)
