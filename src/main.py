@@ -50,8 +50,8 @@ def callback(event):
     x_pos = event.x
     y_pos = event.y
     closest_index = np.argmin(np.abs(x - x_pos))
-    p[closest_index-1:closest_index+2, 1] = y_pos
-    p[closest_index-1:closest_index+2, 0] = y_pos
+    p[closest_index-1:closest_index+2, 1] += y_pos
+    p[closest_index-1:closest_index+2, 0] += y_pos
     print(f"At x = {x_pos}, y = {y_pos}")
 fig.on_event('tap', callback)
 
