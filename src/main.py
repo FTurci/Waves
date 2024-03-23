@@ -54,6 +54,9 @@ def callback(event):
     p[closest_index-1:closest_index+2, 1] += y_pos
     p[closest_index-1:closest_index+2, 0] += y_pos
     print(f"At x = {x_pos}, y = {y_pos}")
+
+fig.toolbar.active_drag = None
+fig.toolbar.active_scroll = None
 fig.on_event('tap', callback)
 
 # curdoc().add_periodic_callback(update, 15)
